@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="crm:war exploded">
-    <output-path>$PROJECT_DIR$/crm/target/crm</output-path>
+    <output-path>$PROJECT_DIR$/crm/target/crm-1.0</output-path>
     <properties id="maven-jee-properties">
       <options>
         <exploded>true</exploded>
@@ -13,9 +13,14 @@
         <element id="directory" name="classes">
           <element id="module-output" name="crm" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: log4j:log4j:1.2.17" />
+          <element id="library" level="project" name="Maven: org.mybatis:mybatis:3.5.7" />
+          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.40" />
+        </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/crm/target/crm/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/crm/target/crm-1.0/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="crm/web/Web" />
     </root>
