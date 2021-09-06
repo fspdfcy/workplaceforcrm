@@ -21,22 +21,20 @@ import java.util.Map;
  * 创建时间: 2021/9/6
  */
 public class UserController extends HttpServlet {
-    private UserService service = (UserService) ServiceFactory.getService(new UserServiceImpl());
+
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         String path = request.getServletPath();
         if ("/settings/user/login.do".equals(path)) {
             doLogin(request, response);
         } else if ("/settings/user/yy.do".equals(path)) {
             //doXxx(request,response);
         }
-
     }
 
     private void doLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        UserService service = (UserService) ServiceFactory.getService(new UserServiceImpl());
         //接收数据
         String loginAct = request.getParameter("loginAct");
         String loginPwd = request.getParameter("loginPwd");
@@ -44,7 +42,6 @@ public class UserController extends HttpServlet {
         loginPwd = MD5Util.getMD5(loginPwd);
         //接收浏览器的ip地址
         String ip = request.getRemoteAddr();
-
         //调用service执行login业务
         try {
             User user = service.login(loginAct, loginPwd, ip);

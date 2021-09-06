@@ -51,6 +51,6 @@ public class UserServiceImpl implements UserService {
         if (!flag) {
             throw new LoginException("用户ip地址不正确");
         }
-        return null;
+        return user;
     }
 }

@@ -37,7 +37,7 @@ public class DateUtil {
      * @return 当前日期的短日期格式
      */
     public static String getCurrentDate() {
-        return format(Const.DATA_FORMAT_PATTERN_YMR);
+        return format(Const.DATA_FORMAT_PATTERN_ALL);
     }
 }
 
