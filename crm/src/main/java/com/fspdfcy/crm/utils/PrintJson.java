@@ -22,17 +22,11 @@ public class PrintJson {
 		try {
 			//{"success":true}
 			String json = om.writeValueAsString(map);
+			response.setContentType("text/json;charset=utf-8");
 			response.getWriter().print(json);
-		} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
 	}
 	
 	//将对象解析为json串
@@ -57,19 +51,12 @@ public class PrintJson {
 		ObjectMapper om = new ObjectMapper();
 		try {
 			String json = om.writeValueAsString(obj);
+			response.setContentType("text/json;charset=utf-8");
 			response.getWriter().print(json);
-		} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
 	}
-	
 }
 
 
