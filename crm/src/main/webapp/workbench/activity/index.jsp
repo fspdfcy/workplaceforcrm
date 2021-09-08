@@ -66,6 +66,100 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		$("#activityBody").on("click",$("input[name=xc]"),function () {
 			$("#qx").prop("checked",$("input[name=xc]").length === $("input[name=xc]:checked").length);
 		})
+
+		$("#editBtn").click(function () {
+
+			var $xc = $("input[name=xc]:checked");
+			if ($xc.length < 1) {
+				alert("请选择要修改的记录");
+				return;
+			} else if ($xc.length > 1) {
+				alert("只能选择一条记录修改");
+				return;
+			}
+			$.ajax({
+				url : "workbench/activity/getUserListAndActivity.do",
+				type : "post",
+				data : {"id" : $xc.val()},
+				dataType : "json",
+				success : function (data) {		//{"userList":"{}","activity":"{}"}
+					//填充所有者内容
+					var html = "";
+					$.each(data.userList,function (index,element) {
+						html += "<option value='"+ element.id +"' >" + element.name + " </option>";
+					})
+					$("#edit-id").val(data.activity.id);
+					$("#edit-owner").html(html);
+					$("#edit-owner").val(data.activity.owner);
+					$("#edit-name").val(data.activity.name);
+					$("#edit-startDate").val(data.activity.startDate);
+					$("#edit-endDate").val(data.activity.endDate);
+					$("#edit-cost").val(data.activity.cost);
+					$("#edit-description").val(data.activity.description);
+				}
+			})
+			$("#editActivityModal").modal("show");
+		})
+
+
+		$("#update").click(function () {
+			//发送ajax请求修改一条数据
+			$.ajax({
+				url: "workbench/activity/update.do",
+				type: "post",
+				data: {
+					"id": $.trim($("#edit-id").val()),
+					"owner": $.trim($("#edit-owner").val()),
+					"name": $.trim($("#edit-name").val()),
+					"startDate": $.trim($("#edit-startDate").val()),
+					"endDate": $.trim($("#edit-endDate").val()),
+					"cost": $.trim($("#edit-cost").val()),
+					"description": $.trim($("#edit-description").val())
+				},
+				dataType: "json",
+				success: function (data) {
+					if (data.success) {
+						pageList($("#activityPage").bs_pagination('getOption', 'currentPage')
+								,$("#activityPage").bs_pagination('getOption', 'rowsPerPage'));
+						//隐藏模态框
+						$("#editActivityModal").modal("hide");
+					} else {
+						alert("修改市场活动失败");
+					}
+				}
+			});
+		})
+
+		$("#delete").click(function () {
+			var $xc = $("input[name=xc]:checked");
+			if ($xc.length < 1) {
+				alert("请选择要删除的记录");
+				return;
+			}
+			if (confirm("是否删除选定的记录条数?")){
+				var param = "";
+				for (var i = 0; i < $xc.length; i++) {
+					param += "id=" + $xc[i].value;
+					if (i < $xc.length-1) {
+						param += "&";
+					}
+				}
+				$.ajax({
+					url : "workbench/activity/delete.do",
+					type : "post",
+					data : param,
+					dataType : "json",
+					success : function (data) {		//{"success":false/true}
+						if (data.success) {
+							//刷新到第一页
+							pageList(1,$("#activityPage").bs_pagination('getOption', 'rowsPerPage'));
+						} else {
+							alert("删除失败");
+						}
+					}
+				})
+			}
+		})
 	});
 
 	function pageList(pageNo,pageSize) {
@@ -239,44 +333,43 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				<div class="modal-body">
 				
 					<form class="form-horizontal" role="form">
+
+						<input type="hidden" id="edit-id" />
 					
 						<div class="form-group">
-							<label for="edit-marketActivityOwner" class="col-sm-2 control-label">所有者<span style="font-size: 15px; color: red;">*</span></label>
+							<label for="edit-owner" class="col-sm-2 control-label">所有者<span style="font-size: 15px; color: red;">*</span></label>
 							<div class="col-sm-10" style="width: 300px;">
-								<select class="form-control" id="edit-marketActivityOwner">
-								  <option>zhangsan</option>
-								  <option>lisi</option>
-								  <option>wangwu</option>
+								<select class="form-control" id="edit-owner">
 								</select>
 							</div>
-                            <label for="edit-marketActivityName" class="col-sm-2 control-label">名称<span style="font-size: 15px; color: red;">*</span></label>
+                            <label for="edit-name" class="col-sm-2 control-label">名称<span style="font-size: 15px; color: red;">*</span></label>
                             <div class="col-sm-10" style="width: 300px;">
-                                <input type="text" class="form-control" id="edit-marketActivityName" value="发传单">
+                                <input type="text" class="form-control" id="edit-name" >
                             </div>
 						</div>
 
 						<div class="form-group">
-							<label for="edit-startTime" class="col-sm-2 control-label">开始日期</label>
+							<label for="edit-startDate" class="col-sm-2 control-label">开始日期</label>
 							<div class="col-sm-10" style="width: 300px;">
-								<input type="text" class="form-control" id="edit-startTime" value="2020-10-10">
+								<input type="text" class="form-control" id="edit-startDate">
 							</div>
-							<label for="edit-endTime" class="col-sm-2 control-label">结束日期</label>
+							<label for="edit-endDate" class="col-sm-2 control-label">结束日期</label>
 							<div class="col-sm-10" style="width: 300px;">
-								<input type="text" class="form-control" id="edit-endTime" value="2020-10-20">
+								<input type="text" class="form-control" id="edit-endDate">
 							</div>
 						</div>
 						
 						<div class="form-group">
 							<label for="edit-cost" class="col-sm-2 control-label">成本</label>
 							<div class="col-sm-10" style="width: 300px;">
-								<input type="text" class="form-control" id="edit-cost" value="5,000">
+								<input type="text" class="form-control" id="edit-cost" >
 							</div>
 						</div>
 						
 						<div class="form-group">
-							<label for="edit-describe" class="col-sm-2 control-label">描述</label>
+							<label for="edit-description" class="col-sm-2 control-label">描述</label>
 							<div class="col-sm-10" style="width: 81%;">
-								<textarea class="form-control" rows="3" id="edit-describe">市场活动Marketing，是指品牌主办或参与的展览会议与公关市场活动，包括自行主办的各类研讨会、客户交流会、演示会、新产品发布会、体验会、答谢会、年会和出席参加并布展或演讲的展览会、研讨会、行业交流会、颁奖典礼等</textarea>
+								<textarea class="form-control" rows="3" id="edit-description"></textarea>
 							</div>
 						</div>
 						
@@ -285,7 +378,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" data-dismiss="modal">更新</button>
+					<button type="button" class="btn btn-primary" id="update">更新</button>
 				</div>
 			</div>
 		</div>
@@ -348,8 +441,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			<div class="btn-toolbar" role="toolbar" style="background-color: #F7F7F7; height: 50px; position: relative;top: 5px;">
 				<div class="btn-group" style="position: relative; top: 18%;">
 				  <button type="button" class="btn btn-primary" id="addBtn"><span class="glyphicon glyphicon-plus"></span> 创建</button>
-				  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editActivityModal"><span class="glyphicon glyphicon-pencil"></span> 修改</button>
-				  <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span> 删除</button>
+				  <button type="button" class="btn btn-default" id="editBtn"><span class="glyphicon glyphicon-pencil"></span> 修改</button>
+				  <button type="button" class="btn btn-danger" id="delete"><span class="glyphicon glyphicon-minus"></span> 删除</button>
 				</div>
 				
 			</div>

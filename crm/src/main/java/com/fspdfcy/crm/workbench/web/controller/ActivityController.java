@@ -14,10 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
 
 /**
  * @author fsp
@@ -36,7 +34,47 @@ public class ActivityController extends HttpServlet {
             save(request,response);
         } else if ("/workbench/activity/pageList.do".equals(path)) {
             pageList(request, response);
+        } else if ("/workbench/activity/getUserListAndActivity.do".equals(path)) {
+            getUserListAndActivity(request, response);
+        } else if ("/workbench/activity/delete.do".equals(path)) {
+            delete(request, response);
+        } else if ("/workbench/activity/update.do".equals(path)) {
+            update(request, response);
         }
+    }
+
+    private void update(HttpServletRequest request, HttpServletResponse response) {
+        Activity activity = new Activity();
+        WebUtil.makeRequestToObject(request, activity);
+        activity.setEditBy(((User) request.getSession().getAttribute("user")).getName());
+        activity.setEditTime(DateUtil.format(Const.DATA_FORMAT_PATTERN_ALL));
+
+
+        ActivityService service = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        boolean flag = service.update(activity);
+
+        PrintJson.printJsonFlag(response, flag);
+    }
+
+    private void delete(HttpServletRequest request, HttpServletResponse response) {
+
+        String[] ids = request.getParameterValues("id");
+        System.out.println(Arrays.toString(ids));
+
+        ActivityService service = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        boolean flag = service.delete(ids);
+
+        PrintJson.printJsonFlag(response, flag);
+    }
+
+    private void getUserListAndActivity(HttpServletRequest request, HttpServletResponse response) {
+
+        String id = request.getParameter("id");
+
+        ActivityService service = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        Map<String,Object> map = service.getUserListAndActivity(id);
+
+        PrintJson.printJsonObj(response, map);
     }
 
 

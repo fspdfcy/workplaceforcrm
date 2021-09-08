@@ -18,4 +18,10 @@ public interface ActivityService {
     boolean save(Activity activity);
 
     PageVo<Activity> pageList(Map<String, Object> map);
+
+    boolean update(Activity activity);
+
+    boolean delete(String[] ids);
+
+    Map<String, Object> getUserListAndActivity(String id);
 }

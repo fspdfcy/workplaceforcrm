@@ -16,4 +16,10 @@ public interface ActivityDao {
     List<Activity> selectByCondition(Map<String, Object> map);
 
     int selectCountByCondition(Map<String, Object> map);
+
+    int update(Activity activity);
+
+    Activity selectById(String id);
+
+    int deleteByIds(String[] ids);
 }

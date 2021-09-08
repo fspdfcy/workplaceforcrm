@@ -6,4 +6,7 @@ package com.fspdfcy.crm.workbench.dao;
  * 创建时间: 2021/9/7
  */
 public interface ActivityRemarkDao {
+    int selectCountByAIds(String[] ids);
+
+    int deleteByIds(String[] ids);
 }
