@@ -2,6 +2,7 @@ package com.fspdfcy.crm.utils;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.Enumeration;
+import java.util.Map;
 
 /**
  * Web工具类
@@ -30,6 +31,15 @@ public class WebUtil {
             } catch (Exception e) {
                 //e.printStackTrace(); 正常异常,无需打印
             }
+        }
+    }
+
+    public static void makeRequestToMap(HttpServletRequest request, Map<String, Object> map) {
+        Enumeration<String> names = request.getParameterNames();
+        while (names.hasMoreElements()) {
+            String name = names.nextElement();
+            String value = request.getParameter(name);
+            map.put(name, value);
         }
     }
 }

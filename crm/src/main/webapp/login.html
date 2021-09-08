@@ -8,6 +8,9 @@
 </head>
 <script type="text/javascript" >
 	$(function () {
+		if(window.top!=window){
+			window.top.location=window.location;
+		}
 		$("#loginAct").val("");
 		$("#loginAct").focus();
 		$(window).keydown(function (event) {
@@ -35,7 +38,7 @@
 			success : function (data) {
 				//登录成功
 				if (data.success === true) {
-					window.location.href = "workbench/index.html";
+					window.location.href = "workbench/index.jsp";
 				} else {   //登录失败
 					$("#msg").text(data.msg);
 				}

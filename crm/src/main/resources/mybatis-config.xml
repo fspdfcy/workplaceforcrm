@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 
 	<typeAliases>
 		<package name="com.fspdfcy.crm.settings.domain"/>
+		<package name="com.fspdfcy.crm.workbench.domain"/>
 	</typeAliases>
 	
 	<environments default="development">
@@ -23,6 +24,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</environments>
 	<mappers>
 		 <package name="com.fspdfcy.crm.settings.dao"/>
+		 <package name="com.fspdfcy.crm.workbench.dao"/>
 	</mappers>
 
 

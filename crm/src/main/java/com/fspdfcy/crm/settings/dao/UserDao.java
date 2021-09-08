@@ -2,6 +2,7 @@ package com.fspdfcy.crm.settings.dao;
 
 import com.fspdfcy.crm.settings.domain.User;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,4 +12,6 @@ import java.util.Map;
  */
 public interface UserDao {
     User selectByActAndPwd(Map<String, Object> map);
+
+    List<User> selectAll();
 }
