@@ -9,7 +9,18 @@
 <%
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 	request.getServerPort() + request.getContextPath() + "/";
 %>
+<script type="text/javascript" >
+    $.ajax({
+        url : "",
+        type : "",
+        data : {
+        },
+        dataType : "json",
+        success : function (data) {
 
+        }
+    })
+</script>
 
 <html>
 <head>

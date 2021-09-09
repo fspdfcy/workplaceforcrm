@@ -7,8 +7,10 @@ import com.fspdfcy.crm.vo.PageVo;
 import com.fspdfcy.crm.workbench.dao.ActivityDao;
 import com.fspdfcy.crm.workbench.dao.ActivityRemarkDao;
 import com.fspdfcy.crm.workbench.domain.Activity;
+import com.fspdfcy.crm.workbench.domain.ActivityRemark;
 import com.fspdfcy.crm.workbench.service.ActivityService;
 
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,5 +79,43 @@ public class ActivityServiceImpl implements ActivityService {
         map.put("userList",userList);
         map.put("activity",activity);
         return map;
+    }
+
+    @Override
+    public Activity getActivityById(String id) {
+        Activity activity = activityDao.selectById1(id);
+        return activity;
+    }
+
+    @Override
+    public List<ActivityRemark> getActivityRemarkList(String id) {
+        List<ActivityRemark> activityRemarkList =  activityRemarkDao.selectByAid(id);
+        return activityRemarkList;
+    }
+
+    @Override
+    public boolean deleteActivityRemark(String id) {
+
+        int i = activityRemarkDao.deleteById(id);
+
+        return i == 1;
+    }
+
+    @Override
+    public ActivityRemark getActivityRemark(String id) {
+        ActivityRemark activityRemark = activityRemarkDao.selectById(id);
+        return activityRemark;
+    }
+
+    @Override
+    public boolean updateActivityRemark(ActivityRemark activityRemark) {
+        int i = activityRemarkDao.update(activityRemark);
+        return i == 1;
+    }
+
+    @Override
+    public boolean insertActivityRemark(ActivityRemark activityRemark) {
+        int i = activityRemarkDao.insert(activityRemark);
+        return i == 1;
     }
 }

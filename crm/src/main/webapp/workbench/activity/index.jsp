@@ -56,7 +56,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		});
 		pageList(1,2);
 		$("#searchBtn").click(function () {
-			pageList(1,$("#rows_per_page_activityPage").val());
+			pageList(1 ,$("#activityPage").bs_pagination('getOption', 'rowsPerPage'));
 		})
 
 		$("#qx").click(function () {
@@ -185,7 +185,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					html += '<tr class="active">';
 					html += '	<td><input type="checkbox" name="xc" value="'+ element.id +'"/></td>';
 					html += '	<td>'+ no +'</td>';
-					html += '	<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href=\'detail.html\';">'+ element.name +'</a></td>';
+					html += '	<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href=\'workbench/activity/getActivity.do?id='+ element.id +'\';">'+ element.name +'</a></td>';
 					html += '	<td>'+ element.owner +'</td>';
 					html += '	<td>'+ element.startDate +'</td>';
 					html += '	<td>'+ element.endDate +'</td>';
@@ -214,7 +214,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						$("#search-owner").val($("#hidden-owner").val());
 						$("#search-startDate").val($("#hidden-startDate").val());
 						$("#search-endDate").val($("#hidden-endDate").val());
-						$("#rows_per_page_activityPage").val($("#hidden-rows_per_page_activityPage").val());
+
 						pageList(data.currentPage , data.rowsPerPage);
 					}
 				});
@@ -223,7 +223,6 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				$("#hidden-owner").val($("#search-owner").val());
 				$("#hidden-startDate").val($("#search-startDate").val());
 				$("#hidden-endDate").val($("#search-endDate").val());
-				$("#hidden-rows_per_page_activityPage").val($("#rows_per_page_activityPage").val());
 			}
 		});
 
@@ -245,7 +244,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			dataType: "json",
 			success: function (data) {
 				if (data.success) {
-					pageList(1,$("#rows_per_page_activityPage").val());
+					pageList(1 ,$("#activityPage").bs_pagination('getOption', 'rowsPerPage'));
 				} else {
 					alert("添加市场活动失败");
 				}
@@ -390,7 +389,6 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 	<input type="hidden" id="hidden-owner">
 	<input type="hidden" id="hidden-startDate">
 	<input type="hidden" id="hidden-endDate">
-	<input type="hidden" id="hidden-rows_per_page_activityPage">
 
 
 	<div>

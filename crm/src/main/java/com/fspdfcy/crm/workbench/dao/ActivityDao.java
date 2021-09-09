@@ -22,4 +22,6 @@ public interface ActivityDao {
     Activity selectById(String id);
 
     int deleteByIds(String[] ids);
+
+    Activity selectById1(String id);
 }

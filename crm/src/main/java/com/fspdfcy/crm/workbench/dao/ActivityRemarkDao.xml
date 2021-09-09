@@ -24,4 +24,74 @@
                 #{AId}
             </foreach>
     </delete>
+
+    <select id="selectByAid" resultType="ActivityRemark" >
+        select
+            id,
+            noteContent,
+            createTime,
+            createBy,
+            editTime,
+            editBy,
+            editFlag,
+            activityId
+        from
+            tbl_activity_remark
+        where
+            activityId = #{id}
+    </select>
+
+    <delete id="deleteById" >
+        delete from
+        tbl_activity_remark
+        where
+        id = #{id}
+    </delete>
+
+    <select id="selectById" resultType="ActivityRemark" >
+        select
+               id,
+               noteContent,
+               createTime,
+               createBy,
+               editTime,
+               editBy,
+               editFlag,
+               activityId
+        from
+             tbl_activity_remark
+        where
+              id = #{id}
+    </select>
+
+    <update id="update" parameterType="ActivityRemark">
+        update
+            tbl_activity_remark
+        set
+            noteContent = #{noteContent},
+            editTime = #{editTime},
+            editBy = #{editBy},
+            editFlag = #{editFlag}
+        where
+            id = #{id}
+    </update>
+
+    <insert id="insert" parameterType="ActivityRemark" >
+        insert into
+            tbl_activity_remark(
+                id,
+                noteContent,
+                createTime,
+                createBy,
+                editFlag,
+                activityId)
+            values (
+                   #{id},
+                   #{noteContent},
+                   #{createTime},
+                   #{createBy},
+                   #{editFlag},
+                   #{activityId}
+                   )
+    </insert>
 </mapper>
